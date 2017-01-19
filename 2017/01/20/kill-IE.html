@@ -4,46 +4,58 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <title>kill-IE</title>
-<!--[if gte IE 9]>
-  <script type="text/javascript">
-	(function(){
-		var _location = window.location, 
-			_search = _location.search.substring(1), // url参数
-			_jumpUrl = _location.host, // 主域名
-			_params, // 参数集合
-			_item, // 单个参数
-			_result = "", // 最后得到的跳转url
-			_len;
-			
-		// 抓取url参数
-		if(_search.indexOf("url") != -1){
-			_params = _search.split("&");
-			_len = _params.length;
-			
-			while(_len){
-			 _len -= 1;
-			 _item = _params[_len];
-			 
-			 if(_item.indexOf("url=") != -1){
-			   result = _item.split("=")[1];
-			   if(result.length > 0){
-					_jumpUrl = result;
-			   }
-			   break;
-			 }
-			}
-			
-		}
-		
-		_location.href = _jumpUrl; // 跳转页面
-	})();
-  </script>
+<script>
+  var isGoodBrowser = true; // 默认标记为现代浏览器
+</script>
+<!--[if ltIE 9]>
+<script>
+  isGoodBrowser = false; // 标记为需要升级的低版本浏览器
+</script>
 <![endif]-->
+<script type="text/javascript">
+  (function(){
+    // 如果是低级版本浏览器，则不进行重定向跳转
+    if(!isGoodBrowser){
+      return;
+    }
+
+    var _location = window.location, 
+      _search = _location.search.substring(1), // url参数
+      _jumpUrl = _location.host, // 主域名
+      _params, // 参数集合
+      _item, // 单个参数
+      _result = "", // 最后得到的跳转url
+      _len;
+      
+    // 抓取url参数
+    if(_search.indexOf("url") != -1){
+      _params = _search.split("&");
+      _len = _params.length;
+      
+      while(_len){
+       _len -= 1;
+       _item = _params[_len];
+       
+       if(_item.indexOf("url=") != -1){
+         result = _item.split("=")[1];
+         if(result.length > 0){
+          _jumpUrl = result;
+         }
+         break;
+       }
+      }
+      
+    }
+    
+    _location.href = _jumpUrl; // 跳转页面
+  })();
+</script>
+
 </head>
 <body>
-	<p>
-		<span>推荐浏览器：</span>
-		<a href="https://www.baidu.com/s?wd=chrome" title="谷歌" target="_blank" >Google浏览器</a>
-	</p>
+  <p>
+    <span>推荐浏览器：</span>
+    <a href="https://www.baidu.com/s?wd=chrome" title="谷歌" target="_blank" >Google浏览器</a>
+  </p>
 </body>
 </html>
