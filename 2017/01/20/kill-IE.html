@@ -39,7 +39,7 @@
        if(_item.indexOf("url=") != -1){
          result = _item.split("=")[1];
          if(result.length > 0){
-          _jumpUrl = result;
+          _jumpUrl = decodeURIComponent(result);
          }
          break;
        }
