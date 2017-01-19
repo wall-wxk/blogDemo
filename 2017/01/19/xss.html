@@ -22,16 +22,16 @@
            function encodeHtml(html){
             return html && html.replace ? 
                 (
-                html.replace(/&/g, "&") //转换&符号
-                    .replace(/ /g, " ") // 转换空格
-                    .replace(/\b +/g, " ") // 转换多个空格为单个空格
-                    .replace(/</g, "<") // 转换小于符号
-                    .replace(/>/g, ">") // 转换大于符号
-                    .replace(/\\/g, "\") // 转换斜杠符号
-                    .replace(/\'/g, "'") // 转换单引号
-                    .replace(/\"/g, """) // 转换双引号
-                    .replace(/\n/g, "<br/>") // 转换换行符号
-                    .replace(/\r/g, "") //转换回车符号
+                html.replace(/&/g, "&")
+                    .replace(/ /g, " ")
+                    .replace(/\b +/g, " ")
+                    .replace(/</g, "<")
+                    .replace(/>/g, ">")
+                    .replace(/\\/g, "\")
+                    .replace(/\'/g, "'")
+                    .replace(/\"/g, """)
+                    .replace(/\n/g, "<br/>")
+                    .replace(/\r/g, "")
                 ) 
                 : 
                 html;
