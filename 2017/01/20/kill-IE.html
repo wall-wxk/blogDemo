@@ -21,7 +21,7 @@
 
     var _location = window.location, 
       _search = _location.search.substring(1), // url参数
-      _jumpUrl = _location.host, // 主域名
+      _jumpUrl = "http://"+_location.host, // 主域名
       _params, // 参数集合
       _item, // 单个参数
       _result = "", // 最后得到的跳转url
