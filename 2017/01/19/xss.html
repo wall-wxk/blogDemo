@@ -15,28 +15,25 @@
                var myText = document.getElementById("myText"),
                    myInput = document.getElementById("myInput"),
                    inputValue = myInput.value;
-
                myText.innerHTML = encodeHtml(inputValue);
            }
-
            function encodeHtml(html){
             return html && html.replace ? 
-                (
-                html.replace(/&/g, "&")
-                    .replace(/ /g, " ")
-                    .replace(/\b +/g, " ")
-                    .replace(/</g, "<")
-                    .replace(/>/g, ">")
-                    .replace(/\\/g, "\")
-                    .replace(/\'/g, "'")
-                    .replace(/\"/g, """)
-                    .replace(/\n/g, "<br/>")
-                    .replace(/\r/g, "")
-                ) 
-                : 
-                html;
-        }
+              (
+                html.replace(/&/g, "&amp;")
+                .replace(/ /g, "&nbsp;")
+                .replace(/\b&nbsp;+/g, " ")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/\\/g, "&#92;")
+                .replace(/\'/g, "&#39;")
+                .replace(/\"/g, "&quot;")
+                .replace(/\n/g, "<br/>")
+                .replace(/\r/g, "")
+              )
+              : html;
 
+           }
        </script>
 </body>
 </html>
