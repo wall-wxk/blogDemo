@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>encode防止xss攻击</title>
+</head>
+<body>
+    <input type="text" id="myInput" />
+    <button onclick="toSubmit();">提交</button>
+       <p id="myText" class="demo">hello world!</p>
+
+       <script type="text/javascript">
+           function toSubmit(){
+               var myText = document.getElementById("myText"),
+                   myInput = document.getElementById("myInput"),
+                   inputValue = myInput.value;
+
+               myText.innerHTML = inputValue;
+           }
+
+       </script>
+</body>
+</html>
