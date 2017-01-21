@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>lazyMan</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+(function(window, undefined){
+	var taskList = [];
+
+	// 类
+	function LazyMan(){};
+
+	LazyMan.prototype.eat = function(str){
+		scribe("eat", str);
+		return this;
+	};
+
+	LazyMan.prototype.sleep = function(num){
+		scribe("sleep", num);
+		return this;
+	};
+
+	LazyMan.prototype.sleepFirst = function(num){
+		scribe("sleepFirst", num);
+		return this;
+	};
+
+	// 发布
+	function publish(){
+		if(taskList.length > 0){
+			run(taskList.shift());
+		}
+	}
+
+	// 鸭子叫
+	function run(option){
+		var msg = option.msg,
+			args = option.args;
+
+		switch(msg){
+			case "lazyMan": lazyMan.apply(null, args);break;
+			case "eat": eat.apply(null, args);break;
+			case "sleep": sleep.apply(null,args);break;
+			case "sleepFirst": sleepFirst.apply(null,args);break;
+			default:;
+		}
+	}
+
+	// 具体方法
+	function lazyMan(str){
+		lazyManLog("lazyMan:"+str);
+
+		publish();
+	}
+
+	function eat(str){
+		lazyManLog("eat:"+str);
+		publish();
+	}
+
+	function sleep(num){
+		lazyManLog("sleeping...");
+		setTimeout(function(){
+			lazyManLog("weak up ");
+
+			publish();
+		}, num);
+		
+	}
+
+	function sleepFirst(num){
+		lazyManLog("sleepFirst...");
+		setTimeout(function(){
+			lazyManLog("weak up ");
+
+			publish();
+		}, num);
+	}
+
+	// 订阅
+	function scribe(){
+		var param = {},
+			args = Array.prototype.slice.call(arguments);
+
+		param.msg = args[0];
+		param.args = args.slice(1); // 函数的参数列表
+
+		if(param.msg == "sleepFirst"){
+			taskList.unshift(param);
+		}else{
+			taskList.push(param);
+		}
+	};
+
+	// 输出文字
+	function lazyManLog(str){
+		console.log(str);
+	}
+
+	// 暴露接口
+	window.lazyMan = function(str){
+		scribe("lazyMan", str);
+
+		setTimeout(function(){
+			publish();
+		}, 0);
+
+		return new LazyMan();
+	};
+
+})(window);
+</script>
+</body>
+</html>
