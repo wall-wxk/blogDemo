@@ -16,19 +16,38 @@
 	function LazyMan(){};
 
 	LazyMan.prototype.eat = function(str){
-		scribe("eat", str);
+		subscribe("eat", str);
 		return this;
 	};
 
 	LazyMan.prototype.sleep = function(num){
-		scribe("sleep", num);
+		subscribe("sleep", num);
 		return this;
 	};
 
 	LazyMan.prototype.sleepFirst = function(num){
-		scribe("sleepFirst", num);
+		subscribe("sleepFirst", num);
 		return this;
 	};
+
+	// 订阅
+	function subscribe(){
+		var param = {},
+			args = Array.prototype.slice.call(arguments);
+
+		if(args.length < 1){
+			throw new Error("subscribe 参数不能为空!");
+		}
+
+		param.msg = args[0];
+		param.args = args.slice(1); // 函数的参数列表
+
+		if(param.msg == "sleepFirst"){
+			taskList.unshift(param);
+		}else{
+			taskList.push(param);
+		}
+	}
 
 	// 发布
 	function publish(){
@@ -53,20 +72,19 @@
 
 	// 具体方法
 	function lazyMan(str){
-		lazyManLog("lazyMan:"+str);
+		lazyManLog("Hi!This is "+ str +"!");
 
 		publish();
 	}
 
 	function eat(str){
-		lazyManLog("eat:"+str);
+		lazyManLog("Eat "+ str +"~");
 		publish();
 	}
 
 	function sleep(num){
-		lazyManLog("sleeping...");
 		setTimeout(function(){
-			lazyManLog("weak up ");
+			lazyManLog("Wake up after "+ num);
 
 			publish();
 		}, num);
@@ -74,28 +92,12 @@
 	}
 
 	function sleepFirst(num){
-		lazyManLog("sleepFirst...");
 		setTimeout(function(){
-			lazyManLog("weak up ");
+			lazyManLog("Wake up after "+ num);
 
 			publish();
 		}, num);
 	}
-
-	// 订阅
-	function scribe(){
-		var param = {},
-			args = Array.prototype.slice.call(arguments);
-
-		param.msg = args[0];
-		param.args = args.slice(1); // 函数的参数列表
-
-		if(param.msg == "sleepFirst"){
-			taskList.unshift(param);
-		}else{
-			taskList.push(param);
-		}
-	};
 
 	// 输出文字
 	function lazyManLog(str){
@@ -103,8 +105,8 @@
 	}
 
 	// 暴露接口
-	window.lazyMan = function(str){
-		scribe("lazyMan", str);
+	window.LazyMan = function(str){
+		subscribe("lazyMan", str);
 
 		setTimeout(function(){
 			publish();
