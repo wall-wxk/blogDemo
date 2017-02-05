@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>获取background-color</title>
+<style type="text/css">
+	.div{width:90px;height:90px;}
+	.parentDiv{background-color:green;}
+	.div3{background-color:yellow;}
+	.div5{opacity:0;}
+	.div6{visibility:hidden;}
+</style>
+</head>
+<body style="background-color: blue;">
+	<div class="parentDiv">
+		<div id="elem1" class="div div1">
+			div1
+		</div>
+	</div>
+	<div id="elem2" class="div div2" style="background-color:red;">
+		div2
+	</div>
+	<div id="elem3" class="div div3">
+		div3
+	</div>
+	<div id="elem4" class="div">
+		div4
+	</div>
+	<div id="elem5" class="div div5">
+		div5
+	</div>
+	<div style="background-color: gray;">
+		<div id="elem6" class="div div6">
+			div6
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		(function(WDS, undefined){
+			// 获取元素计算后的样式
+			function getStyle(elem, property){
+				if(!elem || !property){
+					return false;
+				}
+
+				var value = elem.style[camelize(property)], // 先获取是否有内联样式
+					css; // 获取的所有计算样式
+
+				// 无内联样式，则获取层叠样式表计算后的样式
+				if(!value){
+					if(document.defaultView && document.defaultView.getComputedStyle){
+						css = document.defaultView.getComputedStyle(elem, null);
+						value = css ? css.getPropertyValue(property) : null;
+					}
+				}
+
+				return value;
+			}
+
+			// 字符串转换为驼峰写法
+			function camelize(str) {
+			    return str.replace(/-(\w)/g, function (strMatch, p1){
+			        return p1.toUpperCase();
+			    });
+			}
+
+			// 检测获取的背景色是否有效
+			function checkBgValue(elem){
+				var value = getStyle(elem, 'background-color'),
+					hasColor = value ? true : false; // 是否有颜色
+
+				// 排除特殊情况
+				if(value == "transparent" || value == "rgba(0, 0, 0, 0)"){
+					// 未设置background-color，或者设置为跟随父节点
+					hasColor = false;
+				}else if(getStyle(elem, 'opacity') == "0"){
+					// dom节点透明度为全透明
+					hasColor = false;
+				}else if(getStyle(elem, 'visibility') == "hidden"){
+					// dom节点不可见
+					hasColor = false;
+				}else if(getStyle(elem, 'display') == "none"){
+					// dom节点不可见
+					hasColor = false;
+				}
+
+				return hasColor;
+			}
+
+			// 获取div最终显示的颜色
+			function getRealBg(elem){
+				if(checkBgValue(elem)){
+					return getStyle(elem, 'background-color');
+				}else if(elem != document.documentElement){
+					return getRealBg(elem.parentNode);
+				}
+
+				return '';
+			}
+
+			WDS.getRealBg = getRealBg;
+		})(window.WDS || (window.WDS = {}));
+
+		// 检测结果
+		var elem1 = document.getElementById("elem1"),
+			elem2 = document.getElementById("elem2"),
+			elem3 = document.getElementById("elem3"),
+			elem4 = document.getElementById("elem4"),
+			elem5 = document.getElementById("elem5"),
+			elem6 = document.getElementById("elem6");
+
+		console.log("div1 background-color:"+WDS.getRealBg(elem1));
+		console.log("div2 background-color:"+WDS.getRealBg(elem2));
+		console.log("div3 background-color:"+WDS.getRealBg(elem3));
+		console.log("div4 background-color:"+WDS.getRealBg(elem4));
+		console.log("div5 background-color:"+WDS.getRealBg(elem5));
+		console.log("div6 background-color:"+WDS.getRealBg(elem6));
+	</script>
+</body>
+</html>
