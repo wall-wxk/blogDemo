@@ -7,8 +7,10 @@
 <script type='text/javascript' src='./sniffer.js'></script>
 </head>
 <body>
+	<p>请打开控制台查看效果</p>
 	<script type='text/javascript'>
 		// 还未初始化命名空间Wall及内部方法，可以先把要执行的方法跑一边，订阅下来
+		console.log('订阅Wall.say(\'wall\')');
 		Sniffer.run({
 			'base':window,
 			'name':'Wall.say',
@@ -36,6 +38,7 @@
 		})(window, window.Wall || (window.Wall = {}));
 
 		// 触发已订阅的方法
+		console.log('触发订阅的Wall.say(\'wall\')');
 		Sniffer.trigger({
 			'base':window,
 			'name':'Wall.say'
@@ -46,6 +49,7 @@
 		// 跑已实例化的方法
 
 		// 执行 Wall.message.setName('wang', 'wall');
+		console.log('执行 Wall.message.setName("wang", "wall");');
 		Sniffer.run({
 			'base':Wall,
 			'name':'message.setName',
@@ -53,6 +57,7 @@
 		}, 'wang', 'wall');
 
 		// 执行 Wall.message.getName();
+		console.log('执行 Wall.message.getName();');
 		var newName = Sniffer.run({
 			'base':Wall,
 			'name':'message.getName',
