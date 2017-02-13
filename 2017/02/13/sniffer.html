@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'/>
+<title>js嗅探工具sniffer.js</title>
+<script type='text/javascript' src='./sniffer.js'></script>
+</head>
+<body>
+	<script type='text/javascript'>
+		// 还未初始化命名空间Wall及内部方法，可以先把要执行的方法跑一边，订阅下来
+		Sniffer.run({
+			'base':window,
+			'name':'Wall.say',
+			'subscribe':true
+		}, 'wall');
+
+		// 定义Wall及内部方法
+		(function(window, FUNC, undefined){
+			var name = 'wall';
+
+			Wall.say = function(name){
+				console.log('I\'m '+ name +' !');
+			};
+
+			Wall.message = {
+				getName : function(){
+					return name;
+				},
+				setName : function(firstName, secondName){
+					name = firstName+'-'+secondName;
+				}
+			};
+
+			
+		})(window, window.Wall || (window.Wall = {}));
+
+		// 触发已订阅的方法
+		Sniffer.trigger({
+			'base':window,
+			'name':'Wall.say'
+		});
+
+		// 另一种方式
+
+		// 跑已实例化的方法
+
+		// 执行 Wall.message.setName('wang', 'wall');
+		Sniffer.run({
+			'base':Wall,
+			'name':'message.setName',
+			'subscribe':true
+		}, 'wang', 'wall');
+
+		// 执行 Wall.message.getName();
+		var newName = Sniffer.run({
+			'base':Wall,
+			'name':'message.getName',
+			'subscribe':true
+		});
+
+		console.log(newName);
+		
+	</script>
+</body>
+</html>
