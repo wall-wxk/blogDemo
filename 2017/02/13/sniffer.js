@@ -75,8 +75,6 @@
 			func, // 存储执行方法的指针
 			i, // 遍历list
 			param; // 临时存储list[i]
-
-		console.log(funcName in base);
 		
 		if(funcName.length < 1){
 			return;
