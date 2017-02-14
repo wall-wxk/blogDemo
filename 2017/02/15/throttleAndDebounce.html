@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>函数节流和函数防抖</title>
+<style>
+	.demo{width:200px;height:200px;border:1px solid red;overflow-y:scroll;margin-top:50px;}
+	.scroll{height:5000px;}
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<div id="nothing" class="demo">
+			普通滚动
+			<div class="scroll"></div>
+		</div>
+		<div id="throttle" class="demo">
+			函数节流
+			<div class="scroll"></div>
+		</div>
+		<div id="debounce" class="demo">
+			函数防抖
+			<div class="scroll"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		// 普通滚动
+		document.getElementById("nothing").onscroll = function(){
+			console.log("普通滚动");
+		};
+
+		// 函数节流
+		var canRun = true;
+		document.getElementById("throttle").onscroll = function(){
+			if(!canRun){
+				// 判断是否已空闲，如果在执行中，则直接return
+				return;
+			}
+
+			canRun = false;
+			setTimeout(function(){
+				console.log("函数节流");
+				canRun = true;
+			}, 300);
+		};
+
+		// 函数防抖
+		var timer = false;
+		document.getElementById("debounce").onscroll = function(){
+			clearTimeout(timer); // 清除未执行的代码，重置回初始化状态
+
+			timer = setTimeout(function(){
+				console.log("函数防抖");
+			}, 300);
+		};			
+	</script>
+</body>
+</html>
