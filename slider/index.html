@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<head>
+    <title>css轮播动画</title>
+    <style>
+        ul, li{ margin:0; padding:0; }
+        li::marker{display:none;}
+        img{ width: 600px; height:230px;}
+        .slider{
+            width: 600px;
+            height: 230px;
+            overflow: hidden;
+            position: relative;
+        }
+        .slider-container{
+           width: 400%;
+           height: 100%;
+           position: absolute;
+           top: 0; 
+           left:0;
+           transform: translateX(0);
+           animation: slider-image 10s linear infinite;
+        }
+        .image-container{
+            float: left;
+        }
+
+        @keyframes slider-image{
+            0%{
+                transform: translateX(0);
+            }
+            20%{
+                transform: translateX(0);
+            }
+
+            25%{
+                transform: translateX(-25%);
+            }
+            45%{
+                transform: translateX(-25%);
+            }
+
+            50%{
+                transform: translateX(-50%);
+            }
+            70%{
+                transform: translateX(-50%);
+            }
+
+            75%{
+                transform: translateX(-75%);
+            }
+            95%{
+                transform: translateX(-75%);
+            }
+
+            100%{
+                transform: translateX(0);
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="slider">
+        <ul class="slider-container">
+            <li class="image-container"><img src="./images/1.webp" /></li>
+            <li class="image-container"><img src="./images/2.webp" /></li>
+            <li class="image-container"><img src="./images/3.webp" /></li>
+            <li class="image-container"><img src="./images/4.webp" /></li>
+        </ul>
+    </div>
+</body>
+</html>
